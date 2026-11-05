@@ -2,18 +2,21 @@
 
 Puckless is a remote control for your Mac, compatible with the Logitech Z407. It is not a Logitech product, see the [disclaimer](Disclaimer.md). The app runs in your Mac's menu bar and controls volume, bass, playback and input.
 
-**Requirements:** Mac with Apple silicon (M1 or later), macOS 13 or later, Bluetooth turned on.
+**Requirements:** Mac with Apple silicon (M1 or later), macOS 13 or later, Bluetooth turned on. Keep macOS up to date, see the [review report](Security-Review.md).
 
 The app is available in English and German. This manual uses the English labels. If the app appears in German, switch the language in the settings (gear icon, then **English**).
 
-## Getting started
+## Installation
 
-1. Start **Puckless** from the `~/Applications` folder.
-2. Allow Bluetooth access when asked on first launch.
-3. A round dial appears in the menu bar. When its ring is green, the app is connected.
-4. Click the icon to open the remote.
+1. Unpack the ZIP and drag **Puckless** into the **Applications** folder.
+2. Open the app. If macOS blocks it, click **Open Anyway** under **System Settings → Privacy & Security**.
+3. Allow Bluetooth access when asked.
+4. A round dial appears in the menu bar. When its ring is green, the app is connected.
+5. Click the icon to open the remote.
 
-The app needs no Bluetooth pairing of its own. It finds the speaker by itself, as long as the speaker is on and its control connection is free.
+The app needs no Bluetooth pairing of its own. It finds the speaker by itself, as long as the speaker is on and its control connection is free. To play audio from the Mac through the speaker, pair them over Bluetooth in the usual way.
+
+If you use Puckless on several Macs, select **On demand** on each of them.
 
 ## Menu bar icon
 
@@ -107,6 +110,8 @@ If you use several Macs or also the supplied dial, **On demand** is the better c
 
 In the app, click the disconnect button (radio waves). This frees the control connection. The next command from the app reconnects automatically.
 
+While the dial holds the connection, the app can't find the speaker and shows **Speaker not found**. Once the connection is free, it works again. In testing, connecting then took only a few seconds.
+
 ## Troubleshooting
 
 | Problem | Solution |
@@ -116,50 +121,16 @@ In the app, click the disconnect button (radio waves). This frees the control co
 | "No permission" | Allow Puckless under **System Settings → Privacy & Security → Bluetooth**. |
 | No sound from the Mac | Select the **BT** input and check that the speaker is selected as the output in the Mac's sound settings. |
 | Keyboard shortcut doesn't respond | Check that shortcuts are turned on in the settings. Another app may be using the same shortcut. |
-| App won't start on another Mac | See below. |
+| macOS blocks the app | Click **Open Anyway** under **System Settings → Privacy & Security**. |
 
 The log is at `~/Library/Logs/Puckless.log` and starts fresh each time the app launches. Save a copy before restarting if you want to trace an error.
 
-## Installing on another Mac
-
-1. On this Mac, create a ZIP of the app:
-
-   ```bash
-   ditto -c -k --keepParent "$HOME/Applications/Puckless.app" "$HOME/Desktop/Puckless.zip"
-   ```
-
-2. Transfer the ZIP, unpack it and drag the app into the **Applications** folder.
-3. Open the app. If macOS blocks it, click **Open Anyway** under **System Settings → Privacy & Security**.
-4. Allow Bluetooth access.
-5. Select **On demand** on both Macs.
-
-For the other Mac to play audio through the speaker as well, you also need to pair it over Bluetooth in the usual way.
-
-## Updating or removing the app
-
-**Rebuilding:** You need the Command Line Tools (`xcode-select --install`). Then run this in the `puckless` folder:
-
-```bash
-zsh scripts/build.sh
-```
-
-The script builds the app, installs it to `~/Applications` and starts it. macOS may ask for Bluetooth permission again afterwards.
-
-**Removing:**
+## Removing the app
 
 1. Turn off **Start at login** if it's on.
 2. Quit the app with the power button.
-3. Delete **Puckless** from `~/Applications`.
+3. Delete **Puckless** from the **Applications** folder.
 
-## Not yet tested
-
-These points haven't been checked so far and may behave differently from what is described:
-
-- Switching the language while the app is running
-- **On demand** mode and start at login
-- Mac sleep and wake
-- Working alongside the supplied dial
-- USB input, next and previous track
-- Installation on a second Mac
+## Unofficial protocol
 
 Control relies on a protocol reverse-engineered by the community. The speaker manufacturer does not officially support it, and a firmware update could affect it.

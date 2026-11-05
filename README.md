@@ -4,8 +4,6 @@ A round menu bar remote for your Mac that controls a compatible Bluetooth speake
 
 Compatible with the Logitech Z407. Puckless is not a Logitech product and is not affiliated with Logitech, see the [disclaimer](Disclaimer.md).
 
-Eine deutsche Anleitung findest du in der [Bedienungsanleitung](Bedienungsanleitung.md).
-
 ## Features
 
 - Volume and bass, by turning the ring, scrolling or using the + and − buttons
@@ -29,19 +27,18 @@ The speaker doesn't report its levels, so Puckless changes them in relative step
 zsh scripts/build.sh
 ```
 
-The script builds the app, installs it to `~/Applications` and starts it. Allow Bluetooth access when macOS asks.
+The script builds the app, installs it to `~/Applications` and starts it. Allow Bluetooth access when macOS asks. macOS may ask again after each rebuild.
 
 ## Documentation
 
 - [User manual](User-Manual.md)
-- [Bedienungsanleitung](Bedienungsanleitung.md)
 - [Disclaimer](Disclaimer.md)
 
 ## Project status
 
-Puckless was created with the help of an AI (Claude, Anthropic). Basic functions have been tested with a single speaker and one Mac. Some functions are untested, see the user manual.
+Puckless was created with the help of an AI (Claude, Anthropic). Basic functions have been tested with a single speaker and one Mac. Some functions are untested, see the [disclaimer](Disclaimer.md).
 
-**No security review has been carried out.** Known weaknesses are listed in the [disclaimer](Disclaimer.md). The app is only signed locally and not notarized by Apple.
+**There has been no independent security review.** An internal, AI-assisted review found open issues, see the [review report](Security-Review.md). The app is only signed locally and not notarized by Apple.
 
 ## Credits
 
