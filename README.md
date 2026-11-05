@@ -1,0 +1,52 @@
+# Puckless
+
+A round menu bar remote for your Mac that controls a compatible Bluetooth speaker system without its supplied dial.
+
+Compatible with the Logitech Z407. Puckless is not a Logitech product and is not affiliated with Logitech, see the [disclaimer](Disclaimer.md).
+
+Eine deutsche Anleitung findest du in der [Bedienungsanleitung](Bedienungsanleitung.md).
+
+## Features
+
+- Volume and bass, by turning the ring, scrolling or using the + and − buttons
+- Play/pause, next and previous track
+- Input switching between Bluetooth, AUX and USB
+- Global keyboard shortcuts
+- Status color in the menu bar icon
+- English and German interface
+
+The speaker doesn't report its levels, so Puckless changes them in relative steps and shows no values.
+
+## Requirements
+
+- Mac with Apple silicon (M1 or later)
+- macOS 13 or later
+- Command Line Tools: `xcode-select --install`
+
+## Build and run
+
+```bash
+zsh scripts/build.sh
+```
+
+The script builds the app, installs it to `~/Applications` and starts it. Allow Bluetooth access when macOS asks.
+
+## Documentation
+
+- [User manual](User-Manual.md)
+- [Bedienungsanleitung](Bedienungsanleitung.md)
+- [Disclaimer](Disclaimer.md)
+
+## Project status
+
+Puckless was created with the help of an AI (Claude, Anthropic). Basic functions have been tested with a single speaker and one Mac. Some functions are untested, see the user manual.
+
+**No security review has been carried out.** Known weaknesses are listed in the [disclaimer](Disclaimer.md). The app is only signed locally and not notarized by Apple.
+
+## Credits
+
+The control protocol is based on the documentation in [logi-z407-reverse-engineering](https://github.com/freundTech/logi-z407-reverse-engineering) by freundTech. Puckless uses no code from that project.
+
+## License
+
+No license has been chosen yet. Until then, all rights are reserved.

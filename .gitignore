@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Build output
+build/
+*.app
+*.zip
+
+# Internal test tool, still uses the old name
+poc/
+
+# Internal working notes
+Checkliste.md
+
+# Logs
+*.log
