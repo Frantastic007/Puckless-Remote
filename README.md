@@ -1,4 +1,4 @@
-# Puckless-Remote
+# Puckless-Remote: A free remote app for the Logitech Z407, no battery, no puck
 
 A round menu bar remote for your Mac that controls a compatible Bluetooth speaker system without its supplied dial.
 
