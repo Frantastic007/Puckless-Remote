@@ -4,6 +4,8 @@ A round menu bar remote for your Mac that controls a compatible Bluetooth speake
 
 Compatible with the Logitech Z407. Puckless is not a Logitech product and is not affiliated with Logitech, see the [disclaimer](Disclaimer.md).
 
+[![Support on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Frantastic007)
+
 ## Features
 
 - Volume and bass, by turning the ring, scrolling or using the + and − buttons
