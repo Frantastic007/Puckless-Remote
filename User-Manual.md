@@ -97,26 +97,26 @@ The macOS Bluetooth prompt always follows the system language, not this setting.
 
 ### Always on or on demand?
 
-The speaker accepts only **one control connection at a time**. This covers the app, other Macs and the supplied dial.
+The speaker accepts only **one control connection at a time**. This covers the app, other Macs and the Control Puck.
 
 | Mode | Advantage | Disadvantage |
 |---|---|---|
 | **Always on** (default) | Responds immediately | Other devices can't reach the speaker |
 | **On demand** | Connection is released after 30 seconds without input | The first command takes a few seconds |
 
-If you use several Macs or also the supplied dial, **On demand** is the better choice.
+If you use several Macs or also the Control Puck, **On demand** is the better choice.
 
-### Using the supplied dial
+### Using the Control Puck
 
 In the app, click the disconnect button (radio waves). This frees the control connection. The next command from the app reconnects automatically.
 
-While the dial holds the connection, the app can't find the speaker and shows **Speaker not found**. Once the connection is free, it works again. In testing, connecting then took only a few seconds.
+While the Control Puck holds the connection, the app can't find the speaker and shows **Speaker not found**. Once the connection is free, it works again. In testing, connecting then took only a few seconds.
 
 ## Troubleshooting
 
 | Problem | Solution |
 |---|---|
-| Ring stays orange or "Speaker not found" | Check that the speaker is on. Disconnect the supplied dial or other Macs, as they may be holding the connection. If needed, turn the speaker off and on again. |
+| Ring stays orange or "Speaker not found" | Check that the speaker is on. Disconnect the Control Puck or other Macs, as they may be holding the connection. If needed, turn the speaker off and on again. |
 | "Command dropped" | The speaker was unreachable for more than 8 seconds. The command is deliberately not sent later, so the volume can't change unexpectedly. Try again. |
 | "No permission" | Allow Puckless under **System Settings → Privacy & Security → Bluetooth**. |
 | No sound from the Mac | Select the **BT** input and check that the speaker is selected as the output in the Mac's sound settings. |
