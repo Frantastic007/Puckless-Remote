@@ -49,4 +49,6 @@ The control protocol is based on the documentation in [logi-z407-reverse-enginee
 
 ## License
 
-No license has been chosen yet. Until then, all rights are reserved.
+[MIT](LICENSE)
+
+The license covers the code of this project only. It grants no rights to third-party names or trademarks.
