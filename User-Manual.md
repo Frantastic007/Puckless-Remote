@@ -94,6 +94,8 @@ The shortcuts work everywhere, even with the remote closed. Each press is one st
 - **Keyboard shortcuts:** turns the shortcuts on or off.
 - **Start at login:** starts the app automatically when you log in to your Mac.
 - **Pairing mode:** puts the speaker into Bluetooth pairing mode so you can connect a new audio device. The app asks for confirmation first.
+- **Forget speaker:** the app binds to the first speaker it connects to and ignores other devices. Use this if you replace your speaker. The app then connects to the next speaker it finds, so keep other compatible speakers switched off for that moment.
+- **Heart:** opens the Ko-fi page in your browser, if you'd like to support the project. This is optional.
 
 The app deliberately cannot trigger a factory reset.
 
@@ -121,6 +123,7 @@ While the dial holds the connection, the app can't find the speaker and shows **
 | Problem | Solution |
 |---|---|
 | Ring stays orange or "Speaker not found" | Check that the speaker is on. Disconnect the supplied dial or other Macs, as they may be holding the connection. If needed, turn the speaker off and on again. |
+| Ring stays orange after replacing the speaker | The app is still bound to the old speaker. Click **Forget speaker** in the settings. |
 | "Command dropped" | The speaker was unreachable for more than 8 seconds. The command is deliberately not sent later, so the volume can't change unexpectedly. Try again. |
 | "No permission" | Allow Puckless under **System Settings → Privacy & Security → Bluetooth**. |
 | No sound from the Mac | Select the **BT** input and check that the speaker is selected as the output in the Mac's sound settings. |
@@ -128,7 +131,7 @@ While the dial holds the connection, the app can't find the speaker and shows **
 | Keyboard shortcut doesn't respond | Check that shortcuts are turned on in the settings. Another app may be using the same shortcut. |
 | macOS blocks the app | Click **Open Anyway** under **System Settings → Privacy & Security**. |
 
-The log is at `~/Library/Logs/Puckless.log` and starts fresh each time the app launches. Save a copy before restarting if you want to trace an error.
+The log is at `~/Library/Containers/local.puckless.app/Data/Library/Logs/Puckless.log`. Only your user account can read it. It starts fresh each time the app launches and when it reaches about 1 MB. Save a copy before restarting if you want to trace an error.
 
 ## Removing the app
 

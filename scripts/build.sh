@@ -21,7 +21,8 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key><string>Puckless</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleShortVersionString</key><string>1.2</string>
+  <key>CFBundleShortVersionString</key><string>1.3.0</string>
+  <key>CFBundleVersion</key><string>1.3.0</string>
   <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleLocalizations</key>
   <array><string>en</string><string>de</string></array>
@@ -56,7 +57,8 @@ swiftc -O -parse-as-library Sources/*.swift -target arm64-apple-macos13.0 \
   -framework CoreBluetooth -framework SwiftUI -framework AppKit \
   -framework ServiceManagement -framework Carbon \
   -o "$APP/Contents/MacOS/Puckless"
-codesign --force --sign - "$APP"
+# Hardened Runtime and App Sandbox. The only permission the app needs is Bluetooth.
+codesign --force --options runtime --entitlements scripts/Puckless.entitlements --sign - "$APP"
 
 # Install and start
 pkill -x Puckless 2>/dev/null || true

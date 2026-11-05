@@ -1,6 +1,6 @@
 # Puckless-Remote: Security Review / Sicherheitsprüfung
 
-As of / Stand: November 5, 2026 / 5. November 2026 · App version 1.2 · Commit `f422de1`
+As of / Stand: November 5, 2026 / 5. November 2026 · App version 1.3.0 · Review of version 1.2 at commit `f422de1`, status updated for version 1.3.0
 
 [Deutsch](#deutsch) · [English](#english)
 
@@ -32,10 +32,10 @@ Dies ist eine **interne, KI-gestützte Prüfung** (Claude, Anthropic) durch dass
 | Nr. | Schwere | Befund | Maßnahme | Status |
 |---|---|---|---|---|
 | S-1 | **Hoch** (Umgebung, nicht die App) | Der Test-Mac läuft mit macOS 26.2. Spätere Versionen beheben Bluetooth-Lücken, siehe unten. Verfügbar ist 26.7.2. | macOS aktualisieren | Offen |
-| S-2 | Mittel | Die App verbindet sich automatisch mit jedem Gerät, das den passenden BLE-Dienst anbietet. Das erleichtert das Fälschen und vergrößert möglicherweise die Angriffsfläche. | Bindung an den ersten gefundenen Lautsprecher | Offen |
-| S-3 | Mittel bei Weitergabe | Nur lokale Signatur. Gatekeeper lehnt die App ab. Hardened Runtime und App Sandbox fehlen. | Hardened Runtime aktivieren, Sandbox prüfen, mit Developer-Konto notarisieren | Offen |
-| S-4 | Niedrig | Die Protokolldatei wächst während der Laufzeit unbegrenzt, auch durch Benachrichtigungen eines fremden Geräts. Sie ist für andere Benutzer des Macs lesbar, enthält aber nur Befehle und Verbindungsereignisse. | Größe begrenzen, nur für den Besitzer lesbar machen | Offen |
-| S-5 | Niedrig | Jedes `d40501` löst ein erneutes Senden von `8400` aus, auch außerhalb des Handshakes. Ein fremdes Gerät könnte so Schreibvorgänge auslösen. | Antwort nur während des Handshakes | Offen |
+| S-2 | Mittel | Die App verbindet sich automatisch mit jedem Gerät, das den passenden BLE-Dienst anbietet. Das erleichtert das Fälschen und vergrößert möglicherweise die Angriffsfläche. | Bindung an den ersten verbundenen Lautsprecher, mit Zurücksetzen | Behoben in 1.3.0, mit echtem Lautsprecher geprüft, nicht mit einem fremden Gerät |
+| S-3 | Mittel bei Weitergabe | Nur lokale Signatur. Gatekeeper lehnt die App ab. Hardened Runtime und App Sandbox fehlen. | Hardened Runtime aktivieren, Sandbox prüfen, mit Developer-Konto notarisieren | Teilweise: Hardened Runtime und App Sandbox aktiv seit 1.3.0, Notarisierung bewusst nicht geplant |
+| S-4 | Niedrig | Die Protokolldatei wächst während der Laufzeit unbegrenzt, auch durch Benachrichtigungen eines fremden Geräts. Sie ist für andere Benutzer des Macs lesbar, enthält aber nur Befehle und Verbindungsereignisse. | Größe begrenzen, nur für den Besitzer lesbar machen | Behoben in 1.3.0: rund 1 MB, Rechte 600 |
+| S-5 | Niedrig | Jedes `d40501` löst ein erneutes Senden von `8400` aus, auch außerhalb des Handshakes. Ein fremdes Gerät könnte so Schreibvorgänge auslösen. | Antwort nur während des Handshakes | Behoben in 1.3.0, nicht mit einem fremden Gerät geprüft |
 | S-6 | Niedrig bis mittel, in der App nicht lösbar | Das Steuerprotokoll des Lautsprechers verlangte in den Tests weder Kopplung noch Anmeldung. Personen in Funkreichweite könnten ihn vermutlich steuern, solange die Verbindung frei ist, laut Protokoll-Doku auch zurücksetzen. | Modus „Dauerhaft“ belegt die Verbindung und mindert das etwas | Hinweis |
 | S-7 | Niedrig, nicht getestet | Ohne Kopplung ist die BLE-Verbindung vermutlich unverschlüsselt. Übertragen werden nur Steuerbefehle. | Keine | Hinweis |
 
@@ -57,7 +57,7 @@ Diese Lücken liegen in macOS und nicht im Code von Puckless-Remote. Ob und wie 
 
 ### Keine Auffälligkeiten
 
-- **Kein Netzwerkcode:** keine Netzwerk-Schnittstellen im Quellcode, keine fremden Adressen im Programm, zum Prüfzeitpunkt keine offenen Netzwerkverbindungen.
+- **Kein Netzwerkcode:** keine Netzwerk-Schnittstellen im Quellcode, zum Prüfzeitpunkt keine offenen Netzwerkverbindungen, auch nicht in 1.3.0. Einzige Adresse im Programm ist seit 1.3.0 der Ko-fi-Link, der nur per Klick den Browser öffnet.
 - **Keine Fremdbibliotheken:** nur Apple-Frameworks und die Swift-Laufzeit.
 - **Keine Tastaturüberwachung:** Die globalen Kürzel sind einzeln registriert. Die globale Ereignisüberwachung reagiert nur auf Mausklicks, solange die Fernbedienung offen ist.
 - **Keine riskanten Aufrufe:** keine Prozessstarts, kein Nachladen von Code, keine Skriptausführung.
@@ -94,10 +94,10 @@ This is an **internal, AI-assisted review** (Claude, Anthropic), carried out by 
 | No. | Severity | Finding | Action | Status |
 |---|---|---|---|---|
 | S-1 | **High** (environment, not the app) | The test Mac runs macOS 26.2. Later versions fix Bluetooth flaws, see below. Version 26.7.2 is available. | Update macOS | Open |
-| S-2 | Medium | The app automatically connects to any device offering the matching BLE service. This makes spoofing easier and may increase the attack surface. | Bind to the first speaker found | Open |
-| S-3 | Medium when distributed | Local signature only. Gatekeeper rejects the app. Hardened Runtime and App Sandbox are missing. | Enable Hardened Runtime, evaluate the sandbox, notarize with a developer account | Open |
-| S-4 | Low | The log file grows without limit while running, including from notifications sent by a foreign device. Other users on the Mac can read it, but it contains only commands and connection events. | Limit its size, make it readable by the owner only | Open |
-| S-5 | Low | Every `d40501` triggers `8400` again, even outside the handshake. A foreign device could use this to trigger writes. | Respond only during the handshake | Open |
+| S-2 | Medium | The app automatically connects to any device offering the matching BLE service. This makes spoofing easier and may increase the attack surface. | Bind to the first connected speaker, with a reset option | Fixed in 1.3.0, checked with a real speaker, not with a foreign device |
+| S-3 | Medium when distributed | Local signature only. Gatekeeper rejects the app. Hardened Runtime and App Sandbox are missing. | Enable Hardened Runtime, evaluate the sandbox, notarize with a developer account | Partly: Hardened Runtime and App Sandbox active since 1.3.0, notarization deliberately not planned |
+| S-4 | Low | The log file grows without limit while running, including from notifications sent by a foreign device. Other users on the Mac can read it, but it contains only commands and connection events. | Limit its size, make it readable by the owner only | Fixed in 1.3.0: about 1 MB, permissions 600 |
+| S-5 | Low | Every `d40501` triggers `8400` again, even outside the handshake. A foreign device could use this to trigger writes. | Respond only during the handshake | Fixed in 1.3.0, not checked with a foreign device |
 | S-6 | Low to medium, can't be fixed in the app | The speaker's control protocol required neither pairing nor sign-in during testing. People within radio range could probably control it while the connection is free and, according to the protocol documentation, reset it. | **Always on** mode holds the connection, which helps somewhat | Note |
 | S-7 | Low, not tested | Without pairing, the BLE link is probably unencrypted. Only control commands are transmitted. | None | Note |
 
@@ -119,7 +119,7 @@ These flaws are in macOS, not in Puckless-Remote's code. Whether and how far the
 
 ### No issues found
 
-- **No networking code:** no network APIs in the source, no third-party addresses in the binary, no open network connections at the time of the check.
+- **No networking code:** no network APIs in the source and no open network connections at the time of the check, also in 1.3.0. Since 1.3.0, the only address in the binary is the Ko-fi link, which opens the browser only when clicked.
 - **No third-party libraries:** only Apple frameworks and the Swift runtime.
 - **No keyboard monitoring:** global shortcuts are registered individually. The global event monitor reacts only to mouse clicks, and only while the remote is open.
 - **No risky calls:** no process launches, no dynamic code loading, no script execution.

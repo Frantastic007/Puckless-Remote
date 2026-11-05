@@ -79,6 +79,7 @@ private struct RingShape: Shape {
 struct RemoteFace: View {
     static let diameter: CGFloat = 360
     private static let ringWidth: CGFloat = 44
+    private static let supportURL = URL(string: "https://ko-fi.com/Frantastic007")!
 
     @ObservedObject var controller: SpeakerController
     @ObservedObject var dial: DialModel
@@ -334,9 +335,23 @@ struct RemoteFace: View {
                 Button(t("Kopplungsmodus …", "Pairing mode …")) { confirmPairing = true }
             }
 
-            Button(t("Fertig", "Done")) {
-                confirmPairing = false
-                showSettings = false
+            Button(t("Lautsprecher vergessen", "Forget speaker")) { controller.forgetSpeaker() }
+                .disabled(controller.boundSpeaker == nil)
+                .help(t("Verbindet sich danach mit dem nächsten gefundenen Lautsprecher",
+                        "Afterwards connects to the next speaker it finds"))
+
+            HStack(spacing: 8) {
+                Button(t("Fertig", "Done")) {
+                    confirmPairing = false
+                    showSettings = false
+                }
+                Button {
+                    NSWorkspace.shared.open(Self.supportURL)
+                } label: {
+                    Image(systemName: "heart")
+                }
+                .help(t("Puckless-Remote auf Ko-fi unterstützen", "Support Puckless-Remote on Ko-fi"))
+                .accessibilityLabel(t("Auf Ko-fi unterstützen", "Support on Ko-fi"))
             }
         }
         .font(.system(size: 12))

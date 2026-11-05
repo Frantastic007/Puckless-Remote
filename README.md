@@ -25,9 +25,14 @@ The speaker doesn't report its levels, so Puckless-Remote changes them in relati
 
 - Mac with Apple silicon (M1 or later)
 - macOS 13 or later
-- Command Line Tools: `xcode-select --install`
 
-## Build and run
+## Install
+
+Follow the installation steps in the [user manual](User-Manual.md) with the ZIP from the [latest release](https://github.com/Frantastic007/Puckless-Remote/releases/latest), and compare its SHA-256 checksum with the one listed there.
+
+## Build from source
+
+You need the Command Line Tools: `xcode-select --install`
 
 ```bash
 zsh scripts/build.sh
@@ -39,12 +44,13 @@ The script builds the app, installs it to `~/Applications` as **Puckless** and s
 
 - [User manual](User-Manual.md)
 - [Disclaimer](Disclaimer.md)
+- [Changelog](CHANGELOG.md)
 
 ## Project status
 
 Puckless-Remote was created with the help of an AI (Claude, Anthropic). Basic functions have been tested with a single speaker and one Mac. Some functions are untested, see the [disclaimer](Disclaimer.md).
 
-**There has been no independent security review.** An internal, AI-assisted review found open issues, see the [review report](Security-Review.md). The app is only signed locally and not notarized by Apple.
+**There has been no independent security review, and none is planned. You use the app at your own risk.** An internal, AI-assisted review found issues, some of which are still open, see the [review report](Security-Review.md). The app is only signed locally and not notarized by Apple.
 
 ## Credits
 

@@ -8,6 +8,7 @@ build/
 
 # Internal test tool, still uses the old name
 poc/
+scripts/test.sh
 
 # Internal working notes
 Checkliste.md

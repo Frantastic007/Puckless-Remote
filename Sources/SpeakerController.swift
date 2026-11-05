@@ -58,8 +58,15 @@ enum LinkState: Equatable {
 enum Log {
     static let url = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent("Library/Logs/Puckless.log")
+    private static let maxBytes = 1_000_000
+    private static var bytesWritten = 0
     private static let handle: FileHandle? = {
-        FileManager.default.createFile(atPath: url.path, contents: nil)
+        let manager = FileManager.default
+        try? manager.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let ownerOnly: [FileAttributeKey: Any] = [.posixPermissions: 0o600]
+        manager.createFile(atPath: url.path, contents: nil, attributes: ownerOnly)
+        // createFile keeps the old permissions when the file already exists.
+        try? manager.setAttributes(ownerOnly, ofItemAtPath: url.path)
         return try? FileHandle(forWritingTo: url)
     }()
     private static let formatter: DateFormatter = {
@@ -68,7 +75,19 @@ enum Log {
         return f
     }()
     static func write(_ message: String) {
-        handle?.write(Data("\(formatter.string(from: Date())) \(message)\n".utf8))
+        guard let handle else { return }
+        // A chatty or hostile device must not be able to fill the disk.
+        if bytesWritten >= maxBytes {
+            try? handle.truncate(atOffset: 0)
+            bytesWritten = 0
+            append("Log limit reached, started over", to: handle)
+        }
+        append(message, to: handle)
+    }
+    private static func append(_ message: String, to handle: FileHandle) {
+        let line = Data("\(formatter.string(from: Date())) \(message)\n".utf8)
+        try? handle.write(contentsOf: line)
+        bytesWritten += line.count
     }
 }
 
@@ -82,10 +101,13 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     private static let commandLifetime: TimeInterval = 8
     private static let idleDisconnect: TimeInterval = 30
     private static let maxPending = 5
+    private static let boundSpeakerKey = "boundSpeaker"
 
     @Published private(set) var state: LinkState = .idle
     @Published private(set) var input: Input?
     @Published private(set) var notice: Notice?
+    /// The speaker this Mac is bound to. Other devices offering the same service are ignored.
+    @Published private(set) var boundSpeaker: UUID?
     @Published var language: Language {
         didSet { UserDefaults.standard.set(language.rawValue, forKey: "language") }
     }
@@ -94,7 +116,7 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
             UserDefaults.standard.set(mode.rawValue, forKey: "connectionMode")
             paused = false
             demandActive = state == .connected
-            if mode == .onDemand { armIdleTimer() }
+            armIdleTimer()
             evaluate()
         }
     }
@@ -115,6 +137,8 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     private var demandActive = false
     private var sleeping = false
     private var connectedAt: Date?
+    private var handshakeAnswered = false
+    private var ignoredDeviceLogged = false
 
     private var wanted: Bool {
         if sleeping || paused { return false }
@@ -127,6 +151,7 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
         mode = ConnectionMode(rawValue: defaults.string(forKey: "connectionMode") ?? "") ?? .always
         hotkeysEnabled = defaults.object(forKey: "hotkeysEnabled") as? Bool ?? true
         language = Language(rawValue: defaults.string(forKey: "language") ?? "") ?? .systemDefault
+        boundSpeaker = defaults.string(forKey: Self.boundSpeakerKey).flatMap(UUID.init(uuidString:))
         super.init()
         guard connect else { return }
         Log.write("App started, mode \(mode.rawValue)")
@@ -162,6 +187,8 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
             write(command)
             return
         }
+        // Play/pause is a toggle: replaying several presses at once would only make playback stutter.
+        if command == .playPause { pending.removeAll { $0.command == .playPause } }
         if pending.count >= Self.maxPending { pending.removeFirst() }
         pending.append((command, Date()))
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.commandLifetime + 0.1) { [weak self] in
@@ -183,9 +210,19 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     func disconnect() {
         paused = true
         demandActive = false
+        idleTimer?.cancel()
         pending.removeAll()
         Log.write("Disconnected by user")
         teardown()
+    }
+
+    /// Lets the app bind to the next speaker it finds, for example after replacing the speaker.
+    func forgetSpeaker() {
+        boundSpeaker = nil
+        UserDefaults.standard.removeObject(forKey: Self.boundSpeakerKey)
+        Log.write("Speaker binding removed")
+        teardown()
+        evaluate(after: 1)
     }
 
     // MARK: - Connection flow
@@ -205,6 +242,7 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
 
     private func startSearch() {
         state = .searching
+        ignoredDeviceLogged = false
         Log.write("Searching")
         central.scanForPeripherals(withServices: [Self.serviceUUID])
         armWatchdog(Self.scanTimeout) { [weak self] in
@@ -235,6 +273,7 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
         peripheral = nil
         commandChar = nil
         input = nil
+        handshakeAnswered = false
     }
 
     private func retry() {
@@ -253,7 +292,7 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
         idleTimer?.cancel()
         guard mode == .onDemand else { return }
         let item = DispatchWorkItem { [weak self] in
-            guard let self else { return }
+            guard let self, self.demandActive else { return }
             Log.write("Idle, releasing connection")
             self.demandActive = false
             self.evaluate()
@@ -311,6 +350,13 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     func centralManager(_ central: CBCentralManager, didDiscover found: CBPeripheral,
                         advertisementData: [String: Any], rssi: NSNumber) {
         guard state == .searching else { return }
+        if let boundSpeaker, found.identifier != boundSpeaker {
+            if !ignoredDeviceLogged {
+                Log.write("Ignored a device other than the bound speaker")
+                ignoredDeviceLogged = true
+            }
+            return
+        }
         Log.write("Found speaker, RSSI \(rssi)")
         central.stopScan()
         peripheral = found
@@ -376,11 +422,14 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     func peripheral(_ p: CBPeripheral, didUpdateValueFor c: CBCharacteristic, error: Error?) {
-        guard let data = c.value else { return }
+        guard p === peripheral, c.uuid == Self.responseUUID, let data = c.value else { return }
         let value = data.map { String(format: "%02x", $0) }.joined()
         Log.write("<- \(value)")
         switch value {
         case "d40501":
+            // Only once during the handshake, so a device can't trigger writes at will.
+            guard state == .connecting, !handshakeAnswered else { return }
+            handshakeAnswered = true
             writeRaw([0x84, 0x00])
         case "d40001":
             // The protocol doc also lists d40003, but this speaker does not send it.
@@ -397,12 +446,18 @@ final class SpeakerController: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     private func handshakeFinished() {
-        guard state != .connected else { return }
+        guard state == .connecting, handshakeAnswered, let speaker = peripheral else { return }
         watchdog?.cancel()
         state = .connected
         notice = nil
         connectedAt = Date()
         Log.write("Connected")
+        // Bound only now, so a device that fails the handshake never becomes the bound speaker.
+        if boundSpeaker == nil {
+            boundSpeaker = speaker.identifier
+            UserDefaults.standard.set(speaker.identifier.uuidString, forKey: Self.boundSpeakerKey)
+            Log.write("Bound to this speaker")
+        }
         let cutoff = Date().addingTimeInterval(-Self.commandLifetime)
         let ready = pending.filter { $0.created >= cutoff }
         pending.removeAll()
