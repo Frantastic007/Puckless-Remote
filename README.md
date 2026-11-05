@@ -1,6 +1,6 @@
 # Puckless-Remote
 
-A round menu bar remote for your Mac that controls a compatible Bluetooth speaker system without its Control Puck.
+A round menu bar remote for your Mac that controls a compatible Bluetooth speaker system without its supplied dial.
 
 Compatible with the Logitech Z407. Puckless-Remote is not a Logitech product and is not affiliated with Logitech, see the [disclaimer](Disclaimer.md).
 
@@ -8,7 +8,7 @@ Compatible with the Logitech Z407. Puckless-Remote is not a Logitech product and
 
 ## Why I built this
 
-It annoyed me that the battery in the Control Puck kept running out. That was especially disruptive when switching between my smart speaker and my laptop or smartphone. So I built a remote that runs on my Mac and needs no battery of its own.
+It annoyed me that the battery in the supplied dial kept running out. That was especially disruptive when switching between my smart speaker and my laptop or smartphone. So I built a remote that runs on my Mac and needs no battery of its own.
 
 ## Features
 

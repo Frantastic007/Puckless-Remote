@@ -79,11 +79,6 @@ private struct RingShape: Shape {
 struct RemoteFace: View {
     static let diameter: CGFloat = 360
     private static let ringWidth: CGFloat = 44
-    private static let ringColors = [
-        Color(red: 1.00, green: 0.55, blue: 0.10),
-        Color(red: 0.90, green: 0.10, blue: 0.45),
-        Color(red: 1.00, green: 0.55, blue: 0.10),
-    ]
 
     @ObservedObject var controller: SpeakerController
     @ObservedObject var dial: DialModel
@@ -122,7 +117,9 @@ struct RemoteFace: View {
 
     private var ring: some View {
         ZStack {
-            Circle().fill(AngularGradient(colors: Self.ringColors, center: .center))
+            Circle()
+                .fill(statusColor)
+                .animation(.easeInOut(duration: 0.25), value: controller.state)
             ForEach(0..<24, id: \.self) { index in
                 Capsule()
                     .fill(.white.opacity(0.75))
@@ -363,12 +360,7 @@ struct RemoteFace: View {
     // MARK: - Status
 
     private var statusColor: Color {
-        switch controller.state {
-        case .connected: return .green
-        case .searching, .connecting: return .yellow
-        case .idle: return .gray
-        case .bluetoothOff, .unauthorized: return .red
-        }
+        Color(nsColor: controller.state.statusColor)
     }
 
     private var statusText: String {

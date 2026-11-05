@@ -13,8 +13,12 @@ struct MakeIcon {
 
         NSGraphicsContext.current = context
         DialIcon.draw(in: NSRect(x: 62, y: 62, width: 900, height: 900),
-                      ringStart: NSColor(calibratedRed: 1.00, green: 0.55, blue: 0.10, alpha: 1),
-                      ringEnd: NSColor(calibratedRed: 0.90, green: 0.10, blue: 0.45, alpha: 1))
+                      ringColors: [
+                          NSColor(calibratedRed: 0.19, green: 0.82, blue: 0.35, alpha: 1),  // green
+                          NSColor(calibratedRed: 1.00, green: 0.80, blue: 0.10, alpha: 1),  // amber
+                          NSColor(calibratedRed: 1.00, green: 0.55, blue: 0.10, alpha: 1),  // orange
+                          NSColor(calibratedRed: 0.90, green: 0.10, blue: 0.45, alpha: 1),  // pink
+                      ])
         NSGraphicsContext.current = nil
 
         guard let png = rep.representation(using: .png, properties: [:]) else { exit(1) }

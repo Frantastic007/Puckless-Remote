@@ -1,4 +1,4 @@
-# Puckless: Security Review / Sicherheitsprüfung
+# Puckless-Remote: Security Review / Sicherheitsprüfung
 
 As of / Stand: November 5, 2026 / 5. November 2026 · App version 1.2 · Commit `f422de1`
 
@@ -53,7 +53,7 @@ Diese Einträge sind in der installierten Version 26.2 **nicht** behoben. Keiner
 | 26.7 | CVE-2026-86919 | Codeausführung durch einen Angreifer mit gekoppeltem Gerät |
 | [26.7.2](https://support.apple.com/en-us/149522) | CVE-2026-112566 | Denial-of-Service durch einen Angreifer in der Nähe |
 
-Diese Lücken liegen in macOS und nicht im Code von Puckless. Ob und wie weit die App sie zusätzlich erreichbar macht, wurde nicht getestet.
+Diese Lücken liegen in macOS und nicht im Code von Puckless-Remote. Ob und wie weit die App sie zusätzlich erreichbar macht, wurde nicht getestet.
 
 ### Keine Auffälligkeiten
 
@@ -115,7 +115,7 @@ These entries are **not** fixed in the installed version 26.2. None of the Bluet
 | 26.7 | CVE-2026-86919 | Code execution by an attacker with a paired device |
 | [26.7.2](https://support.apple.com/en-us/149522) | CVE-2026-112566 | Denial of service by an attacker in physical proximity |
 
-These flaws are in macOS, not in Puckless's code. Whether and how far the app makes them more reachable has not been tested.
+These flaws are in macOS, not in Puckless-Remote's code. Whether and how far the app makes them more reachable has not been tested.
 
 ### No issues found
 

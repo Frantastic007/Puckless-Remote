@@ -1,10 +1,10 @@
-# Puckless: Disclaimer
+# Puckless-Remote: Disclaimer
 
 As of: November 5, 2026 · Version 1.2
 
 ## Security review
 
-**Puckless has only had an internal, AI-assisted review, not an independent one.** It covered the code, app bundle, Git history and Apple's security notes, and it produced open findings, see the [review report](Security-Review.md). There was no penetration test, no attack testing of the Bluetooth connection and no third-party review. The result therefore does not confirm that the app is secure.
+**Puckless-Remote has only had an internal, AI-assisted review, not an independent one.** It covered the code, app bundle, Git history and Apple's security notes, and it produced open findings, see the [review report](Security-Review.md). There was no penetration test, no attack testing of the Bluetooth connection and no third-party review. The result therefore does not confirm that the app is secure.
 
 The app and the review were produced with the same AI tool (Claude, Anthropic). The assessment below is non-binding and has not been independently verified.
 
@@ -25,7 +25,7 @@ This list is not exhaustive. Other, unknown weaknesses may exist. Keep macOS up 
 
 ## Functionality
 
-The basic functions were tested with a single speaker and one Mac. Several functions are untested and may behave differently from what is described: start at login, longer Mac sleep in **Always on** mode, the USB input and installation on a second Mac.
+The basic functions were tested with a single speaker and one Mac. Several functions are untested and may behave differently from what is described: longer Mac sleep in **Always on** mode, the USB input and installation on a second Mac.
 
 ## No warranty
 
@@ -33,4 +33,4 @@ The app is provided "as is", without warranty of any kind. You use it at your ow
 
 ## Not a Logitech product
 
-Puckless is compatible with the Logitech Z407, but is not a Logitech product and is not affiliated with Logitech. Logitech has neither reviewed nor approved the app. It relies on an unofficial protocol reverse-engineered by the community. A Z407 firmware update may affect it. Logitech and Z407 are trademarks of their respective owners.
+Puckless-Remote is compatible with the Logitech Z407, but is not a Logitech product and is not affiliated with Logitech. Logitech has neither reviewed nor approved the app. It relies on an unofficial protocol reverse-engineered by the community. A Z407 firmware update may affect it. Logitech and Z407 are trademarks of their respective owners.

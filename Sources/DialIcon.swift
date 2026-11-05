@@ -4,8 +4,13 @@ import AppKit
 /// Shared by the menu bar icon and the app icon.
 enum DialIcon {
     static func draw(in rect: NSRect, ringStart: NSColor, ringEnd: NSColor) {
+        draw(in: rect, ringColors: [ringStart, ringEnd])
+    }
+
+    /// Ring gradient with any number of colours, evenly spread from top to bottom.
+    static func draw(in rect: NSRect, ringColors: [NSColor]) {
         let size = rect.width
-        NSGradient(starting: ringStart, ending: ringEnd)?
+        NSGradient(colors: ringColors)?
             .draw(in: NSBezierPath(ovalIn: rect), angle: -90)
 
         let knobRect = rect.insetBy(dx: size * 0.13, dy: size * 0.13)

@@ -1,6 +1,6 @@
-# Puckless: User Manual
+# Puckless-Remote: User Manual
 
-Puckless is a remote control for your Mac, compatible with the Logitech Z407. It is not a Logitech product, see the [disclaimer](Disclaimer.md). The app runs in your Mac's menu bar and controls volume, bass, playback and input.
+Puckless-Remote is a remote control for your Mac, compatible with the Logitech Z407. It is not a Logitech product, see the [disclaimer](Disclaimer.md). The app runs in your Mac's menu bar and controls volume, bass, playback and input.
 
 **Requirements:** Mac with Apple silicon (M1 or later), macOS 13 or later, Bluetooth turned on. Keep macOS up to date, see the [review report](Security-Review.md).
 
@@ -16,7 +16,9 @@ The app is available in English and German. This manual uses the English labels.
 
 The app needs no Bluetooth pairing of its own. It finds the speaker by itself, as long as the speaker is on and its control connection is free. To play audio from the Mac through the speaker, pair them over Bluetooth in the usual way.
 
-If you use Puckless on several Macs, select **On demand** on each of them.
+If you use Puckless-Remote on several Macs, select **On demand** on each of them.
+
+The app itself appears as **Puckless** in the **Applications** folder, the menu bar and **System Settings**.
 
 ## Menu bar icon
 
@@ -49,6 +51,8 @@ The speaker does not report its current volume or bass level. The app therefore 
 | Double arrow right | Next track |
 
 These buttons act on the device currently sending audio to the speaker over Bluetooth.
+
+**Open your preferred music player first.** If no player is running, for example after logging in, pressing Play can make macOS open Apple Music.
 
 ### Input
 
@@ -97,29 +101,30 @@ The macOS Bluetooth prompt always follows the system language, not this setting.
 
 ### Always on or on demand?
 
-The speaker accepts only **one control connection at a time**. This covers the app, other Macs and the Control Puck.
+The speaker accepts only **one control connection at a time**. This covers the app, other Macs and the supplied dial.
 
 | Mode | Advantage | Disadvantage |
 |---|---|---|
 | **Always on** (default) | Responds immediately | Other devices can't reach the speaker |
 | **On demand** | Connection is released after 30 seconds without input | The first command takes a few seconds |
 
-If you use several Macs or also the Control Puck, **On demand** is the better choice.
+If you use several Macs or also the supplied dial, **On demand** is the better choice.
 
-### Using the Control Puck
+### Using the supplied dial
 
 In the app, click the disconnect button (radio waves). This frees the control connection. The next command from the app reconnects automatically.
 
-While the Control Puck holds the connection, the app can't find the speaker and shows **Speaker not found**. Once the connection is free, it works again. In testing, connecting then took only a few seconds.
+While the dial holds the connection, the app can't find the speaker and shows **Speaker not found**. Once the connection is free, it works again. In testing, connecting then took only a few seconds.
 
 ## Troubleshooting
 
 | Problem | Solution |
 |---|---|
-| Ring stays orange or "Speaker not found" | Check that the speaker is on. Disconnect the Control Puck or other Macs, as they may be holding the connection. If needed, turn the speaker off and on again. |
+| Ring stays orange or "Speaker not found" | Check that the speaker is on. Disconnect the supplied dial or other Macs, as they may be holding the connection. If needed, turn the speaker off and on again. |
 | "Command dropped" | The speaker was unreachable for more than 8 seconds. The command is deliberately not sent later, so the volume can't change unexpectedly. Try again. |
 | "No permission" | Allow Puckless under **System Settings → Privacy & Security → Bluetooth**. |
 | No sound from the Mac | Select the **BT** input and check that the speaker is selected as the output in the Mac's sound settings. |
+| Play opens Apple Music | Open your preferred music player first, then press Play. |
 | Keyboard shortcut doesn't respond | Check that shortcuts are turned on in the settings. Another app may be using the same shortcut. |
 | macOS blocks the app | Click **Open Anyway** under **System Settings → Privacy & Security**. |
 

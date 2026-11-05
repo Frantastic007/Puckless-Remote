@@ -44,6 +44,15 @@ enum ConnectionMode: String, CaseIterable, Identifiable {
 
 enum LinkState: Equatable {
     case bluetoothOff, unauthorized, idle, searching, connecting, connected
+
+    /// Shared by the menu bar icon and the open remote, so both always show the same color.
+    var statusColor: NSColor {
+        switch self {
+        case .connected: return .systemGreen
+        case .searching, .connecting: return .systemOrange
+        case .idle, .bluetoothOff, .unauthorized: return .systemRed
+        }
+    }
 }
 
 enum Log {

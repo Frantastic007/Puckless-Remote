@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puckless-Remote – your Mac as the dial for the Logitech Z407</title>
+<meta name="description" content="Your Mac is the remote now: a free, round menu bar dial for the Logitech Z407. No battery, no hunting for the puck. Unofficial, open source, MIT.">
+<link rel="icon" href="favicon.png">
+<style>
+:root{
+  --bg:#fbfaf9; --surface:#fff; --text:#1d1d1f; --muted:#5f6368; --line:#e5e2de;
+  --accent:#168a3a; --green:#3fd660; --amber:#ffd21e; --orange:#ffa01e; --pink:#ee3c80;
+  --grad:linear-gradient(135deg,var(--green),var(--amber) 38%,var(--orange) 68%,var(--pink)); --btn-text:#141414; --code:#f1efec;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#141414; --surface:#1d1d1d; --text:#f2f1ef; --muted:#a3a3a3; --line:#2e2e2e; --code:#262626; --accent:#30d158;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+a{color:var(--accent)}
+a:hover{text-decoration-thickness:2px}
+header.hero{padding:72px 0 48px;text-align:center}
+.hero img{width:120px;height:120px;border-radius:50%;box-shadow:-10px 14px 36px rgba(48,209,88,.22),10px 14px 36px rgba(230,26,115,.22);display:block}
+.icon{position:relative;display:inline-block}
+.dots{display:inline-flex;gap:6px;vertical-align:middle;margin-left:6px}
+.dots i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.g{background:#30d158}.o{background:#ff9f0a}.r{background:#ff453a}
+h1{font-size:clamp(2rem,6vw,3rem);line-height:1.1;margin:24px 0 12px;letter-spacing:-.02em}
+.tagline{font-size:1.2rem;color:var(--muted);max-width:34em;margin:0 auto 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn{display:inline-block;padding:12px 22px;border-radius:999px;font-weight:600;text-decoration:none;
+  border:1px solid var(--line);color:var(--text);background:var(--surface)}
+.btn.primary{border:0;color:var(--btn-text);background:var(--grad)}
+.bar{height:4px;background:var(--grad)}
+.btn:hover{filter:brightness(1.05)}
+.note{font-size:.9rem;color:var(--muted);margin-top:16px}
+section{padding:36px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;margin:0 0 14px;letter-spacing:-.01em}
+ul{padding-left:1.2em;margin:.4em 0}
+li{margin:.3em 0}
+code{background:var(--code);padding:.1em .4em;border-radius:6px;font-size:.9em}
+.shot{margin:8px 0 28px;text-align:center}
+.shot img{width:min(340px,100%);height:auto;filter:drop-shadow(0 22px 34px rgba(0,0,0,.30)) drop-shadow(0 4px 8px rgba(0,0,0,.18))}
+.shot figcaption{color:var(--muted);font-size:.92rem;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card strong{display:block;margin-bottom:2px}
+.card span{color:var(--muted);font-size:.95rem}
+.status{background:linear-gradient(180deg,var(--green),var(--amber),var(--orange),var(--pink)) left/4px 100% no-repeat,var(--surface);border:1px solid var(--line);
+  border-radius:10px;padding:14px 18px 14px 24px}
+footer{padding:32px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+ol li{margin:.5em 0}
+</style>
+</head>
+<body>
+<div class="bar" aria-hidden="true"></div>
+<header class="hero">
+  <div class="wrap">
+    <span class="icon"><img src="icon.png" alt="Puckless-Remote app icon: a dark dial with an green-to-pink ring" width="120" height="120"></span>
+    <h1>Puckless-Remote</h1>
+    <p class="tagline">Your Mac is the remote now. A round dial in your menu bar for the Logitech Z407. No battery to run flat, no puck to hunt for.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/Frantastic007/Puckless-Remote/releases/latest">Download for macOS</a>
+      <a class="btn" href="https://github.com/Frantastic007/Puckless-Remote">View on GitHub</a>
+      <a class="btn" href="https://ko-fi.com/Frantastic007">Buy me a coffee</a>
+    </div>
+    <p class="note">Free, open source, no ads, no tracking. For Macs with Apple silicon and macOS 13 or later. An unofficial app, not affiliated with Logitech.</p>
+  </div>
+</header>
+
+<main class="wrap">
+<section>
+  <h2>Born from a flat battery</h2>
+  <p>The battery in my supplied dial kept running out, usually right when I wanted to switch between my smart speaker and my laptop or smartphone. So I built the remote I actually wanted: it lives in your menu bar, it is always charged, and it is one click away.</p>
+</section>
+
+<section>
+  <h2>Everything within reach</h2>
+  <figure class="shot">
+    <img src="app-screenshot.png" width="360" height="360" alt="Screenshot of the Puckless-Remote window: a round dial with a green ring showing Connected, volume and bass tabs, minus and plus buttons, play/pause, previous and next track, and the inputs BT, AUX and USB.">
+    <figcaption>The remote, opened from the menu bar. The ring color shows the connection: green means connected.</figcaption>
+  </figure>
+  <div class="grid">
+    <div class="card"><strong>Volume and bass</strong><span>Spin the ring, scroll, or tap + and −.</span></div>
+    <div class="card"><strong>Playback</strong><span>Play, pause, skip. One click.</span></div>
+    <div class="card"><strong>Inputs</strong><span>Hop between Bluetooth, AUX and USB.</span></div>
+    <div class="card"><strong>Hotkeys</strong><span>Global shortcuts, even with the remote closed.</span></div>
+    <div class="card"><strong>Status at a glance<span class="dots" aria-hidden="true"><i class="g"></i><i class="o"></i><i class="r"></i></span></strong><span>Green, orange or red: the ring tells you if you are connected.</span></div>
+    <div class="card"><strong>English or Deutsch</strong><span>Your call, one click in the settings.</span></div>
+  </div>
+  <p class="note">The speaker doesn't report its levels, so the dial works in relative steps and shows no numbers.</p>
+</section>
+
+<section>
+  <h2>Up and running in a minute</h2>
+  <ol>
+    <li>Grab the ZIP from the <a href="https://github.com/Frantastic007/Puckless-Remote/releases/latest">latest release</a> and compare its SHA-256 checksum with the one listed there.</li>
+    <li>Unpack it and drag <strong>Puckless</strong> into Applications.</li>
+    <li>Open it. The app is not notarized by Apple, so macOS may ask you to confirm: <em>System Settings → Privacy &amp; Security → <strong>Open Anyway</strong></em>.</li>
+    <li>Allow Bluetooth access. Green ring in the menu bar? You are in control.</li>
+  </ol>
+  <p>Questions? The <a href="https://github.com/Frantastic007/Puckless-Remote/blob/main/User-Manual.md">user manual</a> has the details.</p>
+</section>
+
+<section>
+  <h2>The honest part</h2>
+  <p>I would rather you know this upfront:</p>
+  <div class="status">
+    <ul>
+      <li><strong>Unofficial.</strong> Puckless-Remote works with the Logitech Z407, but it is not a Logitech product and has nothing to do with Logitech.</li>
+      <li><strong>Community-built protocol.</strong> It is reverse-engineered, so a speaker firmware update could break the app.</li>
+      <li><strong>One control connection at a time.</strong> The speaker accepts just one, shared with the supplied dial and other Macs. Using several? Pick <em>On demand</em> in the settings.</li>
+      <li><strong>Built with AI, reviewed in-house.</strong> I created it together with an AI (Claude, Anthropic). There has been no independent security review. Read the <a href="https://github.com/Frantastic007/Puckless-Remote/blob/main/Disclaimer.md">disclaimer</a> and the <a href="https://github.com/Frantastic007/Puckless-Remote/blob/main/Security-Review.md">review report</a> for the details.</li>
+      <li><strong>Still young.</strong> So far tested with one speaker and one Mac. Your feedback helps.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Like it? Fuel it with a coffee</h2>
+  <p>Puckless-Remote is free and stays free. If it makes your desk a little nicer, a <a href="https://ko-fi.com/Frantastic007">coffee on Ko-fi</a> is a lovely thank-you. Completely optional. This page only links to Ko-fi and loads nothing from there.</p>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Credits: the control protocol is based on the documentation in <a href="https://github.com/freundTech/logi-z407-reverse-engineering">logi-z407-reverse-engineering</a> by freundTech. No code from that project is used.</p>
+    <p>Logitech and Z407 are trademarks of their respective owners. This page uses no cookies and no tracking.</p>
+    <p><a href="impressum.html">Legal notice</a> · <a href="datenschutz.html">Privacy</a> · <a href="https://github.com/Frantastic007/Puckless-Remote/blob/main/LICENSE">MIT License</a></p>
+  </div>
+</footer>
+</body>
+</html>

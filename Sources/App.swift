@@ -44,15 +44,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.isReleasedWhenClosed = false
 
         stateSubscription = controller.$state.sink { [weak self] state in
-            self?.statusItem.button?.image = DialIcon.menuBarImage(color: Self.color(for: state))
-        }
-    }
-
-    private static func color(for state: LinkState) -> NSColor {
-        switch state {
-        case .connected: return .systemGreen
-        case .searching, .connecting: return .systemOrange
-        case .idle, .bluetoothOff, .unauthorized: return .systemRed
+            self?.statusItem.button?.image = DialIcon.menuBarImage(color: state.statusColor)
         }
     }
 
